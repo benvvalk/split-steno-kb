@@ -1,0 +1,56 @@
+units:
+  # `kx`/`ky`: The horizontal/vertical distance between
+  # the "points" (i.e. the center points of the keys).
+  #
+  # `cx`/`cy` are built-in variables for Choc key width (18mm) and
+  # height (17mm). I measured my Choc MBK blank keycaps with digital
+  # calipers and I got a width of 16.5 mm and a height of 17.5 mm, so
+  # it seems that the `cx`/`cy` already have some built-in padding.
+  #
+  # `u` is the built-in variable for cherry MX key width/height
+  # (19mm). The width and height of MX keys are the same.
+  kx: cx
+  ky: cy
+  #
+  # Sets the width/height of the rectangles when rendering the keys in
+  # the output SVG. By default, cherry MX size rectangles are used,
+  # which is confusing/misleading since we are using Choc spacing for
+  # the keyboard. I measured the real width/height of the Choc keycaps
+  # (see above note), and it seems to be 0.5 mm less that `cx`/`cy` in
+  # each dimension.
+  $default_width: cx - 0.5
+  $default_height: cy - 0.5
+
+points:
+  zones:
+    fingercluster:
+      key:
+        spread: 1kx
+        padding: 1ky
+      columns:
+        outer:
+        pinky:
+        ring:
+          key.stagger: 0.5 * ky
+        middle:
+        index:
+          key.stagger: -0.5 * ky
+        inner:
+      rows:
+        bottom:
+        top:
+    thumbcluster:
+      key:
+        padding: 1ky
+        spread: 1kx
+      anchor:
+        ref: fingercluster_index_bottom
+        shift: [0, -2ky]
+      columns:
+        left:
+          key.splay: -15
+        right:
+        inner:
+          key:
+            splay: -30
+            origin: [-kx/2, -ky/2]
