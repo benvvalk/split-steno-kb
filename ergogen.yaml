@@ -11,7 +11,13 @@ units:
   # (19mm). The width and height of MX keys are the same.
   kx: cx
   ky: cy
+  # `px`/`py`: The padded key width/height.
   #
+  # These variables are used only for generating outlines (e.g. the
+  # PCB shape), so there will be some extra padding between the edge
+  # of the keyswitches/microcontrollers and the outer boundary.
+  px: cx + 4
+  py: cy + 4
   # Sets the width/height of the rectangles when rendering the keys in
   # the output SVG. By default, cherry MX size rectangles are used,
   # which is confusing/misleading since we are using Choc spacing for
@@ -54,3 +60,57 @@ points:
           key:
             splay: -30
             origin: [-kx/2, -ky/2]
+      rows:
+        row0:
+outlines:
+  # Define the outline for the PCB, using the same `polygon`-based
+  # approach that is demonstrated at [1].
+  #
+  # [1]: "Let's Design A Keyboard With Ergogen v4: Outlines (Part 2)",
+  # https://flatfootfox.com/ergogen-part2-outlines/
+  pcb:
+    - what: polygon
+      operation: stack
+      points:
+        - ref: fingercluster_outer_top
+          shift: [-0.5px, 0.5py]
+        - ref: fingercluster_ring_top
+          shift: [-0.5px, 0.5py]
+        - ref: fingercluster_middle_top
+          shift: [0.5px, 0.5py]
+        - ref: fingercluster_inner_top
+          shift: [0.5px, 0.5py]
+        - ref: thumbcluster_inner_row0
+          shift: [0.5px, 0.5py]
+        - ref: thumbcluster_inner_row0
+          shift: [0.5px, -0.5py]
+        - ref: thumbcluster_left_row0
+          shift: [-0.5px, -0.5py]
+        - ref: fingercluster_outer_bottom
+          shift: [-0.5px, -0.5py]
+  # Draws the rectangles for the keys.
+  keys:
+    - what: rectangle
+      where: true
+      size: [$default_width, $default_height]
+  # Draws all outlines/keys/components on top of each other.
+  #
+  # This is useful for debugging, so we can visualize how the various
+  # component positions relate to each other.
+  #
+  # Note:
+  #
+  # So far, I've been manually opening `debug.dxf` in FreeCAD to view
+  # it. I haven't yet found any viewers that would give a
+  # quicker/better workflow, nor any command line tools that convert
+  # DXF -> SVG.
+  #
+  # If I could convert the DXF file to SVG, I could view it in
+  # Firefox, and just press Ctrl+R to refresh when the file
+  # changes. As it stands, I need to manually reopen `debug.dxf` in
+  # FreeCAD (using Ctrl+O and then selecting the file with the mouse)
+  # every time I make a change and regenerate the file.
+  debug:
+    - name: pcb
+    - operation: stack
+      name: keys
