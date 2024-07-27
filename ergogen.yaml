@@ -16,8 +16,9 @@ units:
   # These variables are used only for generating outlines (e.g. the
   # PCB shape), so there will be some extra padding between the edge
   # of the keyswitches/microcontrollers and the outer boundary.
-  px: cx + 4
-  py: cy + 4
+  padding: 2
+  px: cx + 2 * padding
+  py: cy + 2 * padding
   # Sets the width/height of the rectangles when rendering the keys in
   # the output SVG. By default, cherry MX size rectangles are used,
   # which is confusing/misleading since we are using Choc spacing for
@@ -26,10 +27,39 @@ units:
   # each dimension.
   $default_width: cx - 0.5
   $default_height: cy - 0.5
+  # Microcontroller dimensions (Arduino Pro Micro).
+  #
+  # Note 1: The default orientation of the `promicro` footprint is
+  # horizontal, so that the longer dimension is parallel to the
+  # x-axis. I have to rotate it by -90 degrees to get it into vertical
+  # orientation, which is what I use for this keyboard. (It also the
+  # orientation that most other custom keyboards use.)
+  #
+  # Note 2: I determined these dimensions by measuring the Ergogen
+  # footprint in KiCad, using the ruler tool.
+  #
+  # Note 3: The origin point for the footprint is not centered along
+  # the longer dimension, so I split the measurements into two
+  # variables: `promicro_top_height` and `promicro_bottom_width`.
+  promicro_top_height: 17.78
+  promicro_bottom_height: 15.20
+  promicro_width: 17.78
+  # TRRS jack dimensions (TRRS-PJ-320).
+  #
+  # Note: If you open the TRRS footprint in the KiCad footprint
+  # editor, you will see that it is not centered on the origin point
+  # for the footprint. The `trrs_offset_x`/`trrs_offset_y` values are
+  # the offset of the origin from center point of the TRRS housing.
+  trrs_width: 6.1
+  trrs_offset_x: 2.3
+  trrs_offset_y: 6.05
 
 points:
   zones:
     fingercluster:
+      # Fix placement of PCB on KiCAD sheet.
+      anchor:
+        shift: [100, -100]
       key:
         spread: 1kx
         padding: 1ky
@@ -62,6 +92,36 @@ points:
             origin: [-kx/2, -ky/2]
       rows:
         row0:
+    promicro:
+      anchor:
+        # Use middle finger key in top row
+        # (`fingercluster_middle_top`) as the reference point, so I
+        # can align the top edge of the `promicro` to the top edge of
+        # the highest key.
+        ref: fingercluster_middle_top
+        shift: [2.5kx + padding + promicro_width/2, ky/2 - promicro_top_height]
+        rotate: -90
+      columns.col0:
+      rows.row0:
+    trrs:
+      anchor:
+        # Note 1: `orient: 90` undoes the 90 degree rotation on the
+        # promicro, which we are using as our reference point.  This
+        # restores the TRRS footprint to its default vertical
+        # orientation.
+        #
+        # Note 2: We add `trrs_offset_x` here because the TRRS
+        # footprint is not horizontally centered on the local origin
+        # of the footprint. (You can open it in the KiCad footprint
+        # editor, to see what I mean.) The TRRS footprint is not
+        # vertically centered either, but as luck would have it, the
+        # top edge of the TRRS housing aligns with the footprint
+        # origin, so we don't need to make any vertical adjustments.
+        ref: promicro_col0_row0
+        orient: 90
+        shift: [trrs_offset_x + promicro_width/2 + padding + trrs_width/2, promicro_top_height]
+      columns.col0:
+      rows.row0:
 outlines:
   # Define the outline for the PCB, using the same `polygon`-based
   # approach that is demonstrated at [1].
@@ -71,6 +131,7 @@ outlines:
   pcb:
     - what: polygon
       operation: stack
+      fillet: 2
       points:
         - ref: fingercluster_outer_top
           shift: [-0.5px, 0.5py]
@@ -78,8 +139,10 @@ outlines:
           shift: [-0.5px, 0.5py]
         - ref: fingercluster_middle_top
           shift: [0.5px, 0.5py]
-        - ref: fingercluster_inner_top
-          shift: [0.5px, 0.5py]
+        - ref: trrs_col0_row0
+          shift: [trrs_width/2 + padding, padding]
+        - ref: trrs_col0_row0
+          shift: [trrs_width/2 + padding, -3.5ky]
         - ref: thumbcluster_inner_row0
           shift: [0.5px, 0.5py]
         - ref: thumbcluster_inner_row0
@@ -114,3 +177,43 @@ outlines:
     - name: pcb
     - operation: stack
       name: keys
+pcbs:
+  main:
+    outlines:
+      main:
+        outline: pcb
+    footprints:
+      choc_hotswap:
+        what: choc
+        where: /cluster/ # exclude `promicro` and `trrs`
+        params:
+          keycaps: true
+          reverse: true
+          hotswap: true
+          from: "{{column_net}}"
+          to: "{{colrow}}"
+      diode:
+        what: diode
+        where: /cluster/ # exclude `promicro` and `trrs`
+        params:
+          from: "{{colrow}}"
+          to: "{{row_net}}"
+        adjust:
+          shift: [0, -5]
+      promicro:
+        what: promicro
+        params:
+          orientation: "up"
+        where:
+          ref: promicro_col0_row0
+      trrs:
+        what: trrs
+        params:
+          reverse: true
+          # mandatory parameters for nets
+          A: A
+          B: B
+          C: C
+          D: D
+        where:
+          ref: trrs_col0_row0
