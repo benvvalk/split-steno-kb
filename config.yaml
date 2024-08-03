@@ -131,7 +131,7 @@ points:
         # promicro, which we are using as our reference point. This
         # restores the button footprint to its default orientation.
         orient: 90
-        shift: [promicro_width/2 + padding + reset_button_size/2, 0]
+        shift: [promicro_width/2 + padding + reset_button_size/2 + 1, 0]
       columns.col0:
       rows.row0:
 
