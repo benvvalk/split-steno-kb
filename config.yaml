@@ -153,9 +153,9 @@ outlines:
         - ref: fingercluster_middle_top
           shift: [0.5px, 0.5py]
         - ref: trrs_col0_row0
-          shift: [trrs_width/2 + padding, padding]
+          shift: [trrs_width/2 + padding + 5, padding]
         - ref: trrs_col0_row0
-          shift: [trrs_width/2 + padding, -3.5ky]
+          shift: [trrs_width/2 + padding + 5, -3.5ky]
         - ref: thumbcluster_inner_row0
           shift: [0.5px, 0.5py]
         - ref: thumbcluster_inner_row0
@@ -237,3 +237,43 @@ pcbs:
           to: RST
         where:
           ref: reset_button_col0_row0
+      mountinghole_top_left:
+        what: mountinghole
+        where:
+          ref: fingercluster_pinky_top
+          shift: [-0.5kx, 0.7ky]
+      mountinghole_top_middle:
+        what: mountinghole
+        where:
+          ref: fingercluster_index_top
+          shift: [0, 0.9ky]
+      mountinghole_top_right:
+        what: mountinghole
+        where:
+          ref: trrs_col0_row0
+          shift: [6.5, -1.4]
+      mountinghole_middle_left:
+        what: mountinghole
+        where:
+          ref: fingercluster_outer_bottom
+          shift: [-0.5kx + 1.3, -0.5ky + 0.5]
+      mountinghole_middle_middle:
+        what: mountinghole
+        where:
+          ref: fingercluster_index_bottom
+          shift: [-0.5kx, -0.5ky]
+      mountinghole_middle_right:
+        what: mountinghole
+        where:
+          ref: fingercluster_inner_bottom
+          shift: [2kx + 6.5, -0.85ky - 10]
+      mountinghole_bottom_middle:
+        what: mountinghole
+        where:
+          ref: thumbcluster_left_row0
+          shift: [-1.0kx, -0.33kx]
+      mountinghole_bottom_right:
+        what: mountinghole
+        where:
+          ref: thumbcluster_inner_row0
+          shift: [0.4cx, -0.475cy]
