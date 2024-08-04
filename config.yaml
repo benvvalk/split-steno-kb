@@ -225,6 +225,13 @@ pcbs:
           hotswap: true
           from: "{{column_net}}"
           to: "{{colrow}}"
+      via_outer_top:
+        what: via
+        where: /cluster/ # exclude `promicro` and `trrs`
+        params:
+          net: "{{column_net}}"
+        adjust:
+          shift: [0, 3]
       diode:
         what: diode
         where: /cluster/ # exclude `promicro` and `trrs`
