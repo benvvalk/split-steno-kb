@@ -78,9 +78,9 @@
       (subtractmaskfromsilk false)
       (outputformat 1)
       (mirror false)
-      (drillshape 1)
+      (drillshape 0)
       (scaleselection 1)
-      (outputdirectory "")
+      (outputdirectory "gerbers/")
     )
   )
 
@@ -2020,6 +2020,9 @@
   (gr_arc (start 57.947613 106.480922) (mid 57.080386 105.743181) (end 56.756302 104.651708) (layer "Edge.Cuts") (width 0.15) (tstamp c854e6f8-cb8f-47cd-9f4d-bfe299b042cd))
   (gr_line (start 56.756302 104.651708) (end 56.756299 69.537017) (layer "Edge.Cuts") (width 0.15) (tstamp cf1dcf40-c002-4d4c-8d20-bc7b530e55b6))
   (gr_arc (start 203.936302 120.464234) (mid 203.878848 120.940171) (end 203.709782 121.388761) (layer "Edge.Cuts") (width 0.15) (tstamp e9e5c6b8-b985-42d1-8fe4-7bcc8c6d5013))
+  (gr_text "split-steno-kb 1.0.0" (at 112.583547 116.060323) (layer "F.SilkS") (tstamp 8b9b5d72-71b4-4021-b022-a0b89d09b3c8)
+    (effects (font (size 2 2) (thickness 0.15)))
+  )
 
   (segment (start 71.031302 89.504248) (end 70.706297 89.504247) (width 0.25) (layer "F.Cu") (net 1) (tstamp 02314b8c-4ce6-45f9-8e16-65c90dd1fe47))
   (segment (start 70.706297 89.504247) (end 67.756301 92.454247) (width 0.25) (layer "F.Cu") (net 1) (tstamp 2156d5e2-920c-4f76-a9c3-8f24eb7b05ea))
