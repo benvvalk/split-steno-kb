@@ -67,16 +67,30 @@ points:
         padding: 1ky
       columns:
         outer:
+          key:
+            column_net: P10
         pinky:
+          key:
+            column_net: P16
         ring:
-          key.stagger: 0.5 * ky
+          key:
+            column_net: P14
+            stagger: 0.5 * ky
         middle:
+          key:
+            column_net: P15
         index:
-          key.stagger: -0.5 * ky
+          key:
+            column_net: P18
+            stagger: -0.5 * ky
         inner:
+          key:
+            column_net: P19
       rows:
         bottom:
+          row_net: P9
         top:
+          row_net: P6
     thumbcluster:
       key:
         padding: 1ky
@@ -86,14 +100,20 @@ points:
         shift: [0, -2ky]
       columns:
         left:
-          key.splay: -15
+          key:
+            column_net: P15
+            splay: -15
         right:
+          key:
+            column_net: P18
         inner:
           key:
-            splay: -30
+            column_net: P19
             origin: [-kx/2, -ky/2]
+            splay: -30
       rows:
         row0:
+          row_net: P8
     promicro:
       anchor:
         # Use middle finger key in top row
