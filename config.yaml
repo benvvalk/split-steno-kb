@@ -224,10 +224,10 @@ pcbs:
         params:
           reverse: true
           # mandatory parameters for nets
-          A: A
-          B: B
-          C: C
-          D: D
+          A: VCC
+          B: NA
+          C: P1
+          D: GND
         where:
           ref: trrs_col0_row0
       reset_button:
